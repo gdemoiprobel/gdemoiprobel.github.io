@@ -1,0 +1,89 @@
+<html>
+	<head>
+	    <meta charset="utf-8" />
+		
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<link href="favicon.ico" type="image/ico" rel="icon" />
+<meta name="generator" content="yarus" />
+		<link href="favicon.ico" type="image/ico" rel="shortcut icon" />	
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+		<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+		<script src="dist/Leaflet.Control.Custom.js"></script>
+    <script src="dist/draw/Leaflet.draw.js"></script>
+    <script src="dist/draw/Leaflet.Draw.Event.js"></script>
+    <link rel="stylesheet" href="dist/draw/leaflet.draw.css"/>
+
+    <script src="dist/draw/Toolbar.js"></script>
+    <script src="dist/draw/Tooltip.js"></script>
+
+    <script src="dist/draw/ext/GeometryUtil.js"></script>
+    
+    <script src="dist/draw/ext/LineUtil.Intersect.js"></script>
+    <script src="dist/draw/ext/Polygon.Intersect.js"></script>
+    <script src="dist/draw/ext/Polyline.Intersect.js"></script>
+    <script src="dist/draw/ext/TouchEvents.js"></script>
+
+    <script src="dist/draw/draw/DrawToolbar.js"></script>
+    <script src="dist/draw/draw/handler/Draw.Feature.js"></script>
+    <script src="dist/draw/draw/handler/Draw.SimpleShape.js"></script>
+    <script src="dist/draw/draw/handler/Draw.Polyline.js"></script>
+    <script src="dist/draw/draw/handler/Draw.Circle.js"></script>
+    <script src="dist/draw/draw/handler/Draw.Marker.js"></script>
+    <script src="dist/draw/draw/handler/Draw.Polygon.js"></script>
+    <script src="dist/draw/draw/handler/Draw.Rectangle.js"></script>
+
+
+    <script src="dist/draw/edit/EditToolbar.js"></script>
+    <script src="dist/draw/edit/handler/EditToolbar.Edit.js"></script>
+    <script src="dist/draw/edit/handler/EditToolbar.Delete.js"></script>
+
+    <script src="dist/draw/Control.Draw.js"></script>
+
+    <script src="dist/draw/edit/handler/Edit.Poly.js"></script>
+    <script src="dist/draw/edit/handler/Edit.SimpleShape.js"></script>
+    <script src="dist/draw/edit/handler/Edit.Circle.js"></script>
+    <script src="dist/draw/edit/handler/Edit.Rectangle.js"></script>
+    <script src="dist/draw/edit/handler/Edit.Marker.js"></script>
+		<link rel="stylesheet" href="css/map.css"/>
+	
+	</head>
+	<body>
+		<div id="map"> </div>
+		<script>
+  var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            osmAttrib = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            osm = L.tileLayer(osmUrl, { maxZoom: 18, attribution: osmAttrib }),
+            map = new L.Map('map', { center: new L.LatLng(49.4482, 32.0583), zoom: 13 }),
+            drawnItems = L.featureGroup().addTo(map);
+    L.control.layers({
+        'osm': osm.addTo(map),
+        "google": L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+            attribution: 'google'
+        })
+    }, { 'drawlayer': drawnItems }, { position: 'topleft', collapsed: false }).addTo(map);
+    map.addControl(new L.Control.Draw({
+        edit: {
+            featureGroup: drawnItems,
+            poly: {
+                allowIntersection: false
+            }
+        },
+        draw: {
+            polygon: {
+                allowIntersection: false,
+                showArea: true
+            }
+        }
+    }));
+
+    map.on(L.Draw.Event.CREATED, function (event) {
+        var layer = event.layer;
+
+        drawnItems.addLayer(layer);
+    });
+
+ 
+</script>
+	</body>
+
+</html>
